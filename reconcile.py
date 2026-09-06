@@ -12,7 +12,10 @@ the file are deleted unless --no-prune. Use --dry-run to print the plan only.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import os
+import re
+import subprocess
 import sys
 from pathlib import Path
 from typing import Any
@@ -71,9 +74,28 @@ class Category(BaseModel):
     feeds: list[Feed] = Field(default_factory=list)
 
 
+class Fever(BaseModel):
+    """Fever API credentials. Miniflux stores md5("user:pass") as fever_token."""
+
+    model_config = ConfigDict(extra="forbid")
+    enabled: bool = True
+    username: str
+    password: str
+
+    @property
+    def token(self) -> str:
+        return hashlib.md5(f"{self.username}:{self.password}".encode()).hexdigest()
+
+
+class Integrations(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    fever: Fever | None = None
+
+
 class Config(BaseModel):
     model_config = ConfigDict(extra="forbid")
     user: dict[str, Any] | None = None
+    integrations: Integrations | None = None
     feed_defaults: FeedOpts = Field(default_factory=FeedOpts)
     categories: list[Category]
 
@@ -91,6 +113,36 @@ class Client:
         if r.status_code >= 400:
             sys.exit(f"{method} {path} -> {r.status_code}: {r.text}")
         return r.json() if r.content else None
+
+
+class Db:
+    """Run SQL in the postgres container over ssh; needed only for integrations."""
+
+    def __init__(self) -> None:
+        self.ssh = os.environ.get("MINIFLUX_SSH")
+        self.container = os.environ.get("MINIFLUX_DB_CONTAINER", "miniflux-db")
+        if not self.ssh:
+            sys.exit("integrations need MINIFLUX_SSH (user@host) in .env")
+
+    def sql(self, query: str) -> str:
+        cmd = [
+            "ssh",
+            "-o",
+            "BatchMode=yes",
+            self.ssh,
+            f"PATH=$PATH:/usr/local/bin docker exec -i {self.container} psql -U miniflux -tAq",
+        ]
+        r = subprocess.run(
+            cmd, input=query, capture_output=True, text=True, check=False
+        )
+        if r.returncode != 0 or "ERROR" in r.stderr:
+            sys.exit(f"sql failed: {r.stderr.strip()}")
+        return r.stdout.strip()
+
+
+def q(v: str) -> str:
+    """SQL-quote a string literal."""
+    return "'" + v.replace("'", "''") + "'"
 
 
 class Action:
@@ -215,9 +267,29 @@ def plan(cfg: Config, c: Client, prune: bool) -> list[Action]:
                     )
                 )
 
+    me = c.req("GET", "/me")
+
+    # --- integrations (direct SQL, no API) ---
+    if cfg.integrations and cfg.integrations.fever:
+        fv, db = cfg.integrations.fever, Db()
+        cur = db.sql(
+            f"select fever_enabled, fever_username, fever_token from integrations where user_id={me['id']}"
+        )
+        want = f"{'t' if fv.enabled else 'f'}|{fv.username}|{fv.token}"
+        if cur != want:
+            actions.append(
+                Action(
+                    f"fever update     enabled={fv.enabled} username={fv.username!r}",
+                    lambda: db.sql(
+                        f"update integrations set fever_enabled={fv.enabled}, "
+                        f"fever_username={q(fv.username)}, fever_token={q(fv.token)} "
+                        f"where user_id={me['id']}"
+                    ),
+                )
+            )
+
     # --- user settings ---
     if cfg.user:
-        me = c.req("GET", "/me")
         udiff = {k: v for k, v in cfg.user.items() if me.get(k) != v}
         unknown = set(cfg.user) - set(me)
         if unknown:
@@ -251,7 +323,14 @@ def main() -> None:
     if not url or not key:
         sys.exit("set MINIFLUX_URL and MINIFLUX_API_KEY (in .env or the environment)")
 
-    cfg = Config.model_validate(yaml.safe_load(args.config.read_text()))
+    text = args.config.read_text()
+    missing = [v for v in re.findall(r"\$\{(\w+)\}", text) if v not in os.environ]
+    if missing:
+        sys.exit(
+            f"unset variables referenced in {args.config.name}: {sorted(set(missing))}"
+        )
+    text = re.sub(r"\$\{(\w+)\}", lambda m: os.environ[m.group(1)], text)
+    cfg = Config.model_validate(yaml.safe_load(text))
     actions = plan(cfg, Client(url, key), prune=not args.no_prune)
 
     if not actions:

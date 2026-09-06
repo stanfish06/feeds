@@ -31,6 +31,14 @@ user:
   block_filter_entry_rules: ""
   keep_filter_entry_rules: ""
 
+# Integrations have no REST endpoint; the reconciler writes the `integrations`
+# table over ssh (needs MINIFLUX_SSH in .env).
+integrations:
+  fever:
+    enabled: true
+    username: admin
+    password: "111111"           # Fever clients: http://192.168.8.178:8085/fever/
+
 # Per-feed defaults, overridable per feed. Keys match the Miniflux feed API.
 feed_defaults:
   crawler: false                  # fetch full article content instead of the feed excerpt
