@@ -1,0 +1,76 @@
+# Declarative Miniflux config. Apply with: uv run reconcile.py [--dry-run]
+# Identity: categories by title, feeds by url. Anything absent here is deleted.
+
+# User-level preferences -> PUT /v1/users/{id}. Remove a key to leave it unmanaged.
+user:
+  theme: system_sans_serif        # light_serif|light_sans_serif|dark_serif|dark_sans_serif|system_serif|system_sans_serif
+  language: en_US
+  timezone: America/Detroit
+  display_mode: standalone        # fullscreen|standalone|minimal-ui|browser (PWA display)
+  default_home_page: unread       # unread|starred|history|feeds|categories|search
+  entries_per_page: 100
+  entry_sorting_order: published_at   # published_at|created_at|category_title|category_id|status
+  entry_sorting_direction: desc
+  categories_sorting_order: alphabetical  # alphabetical|unread_count
+  show_reading_time: true
+  keyboard_shortcuts: true
+  entry_swipe: true
+  gesture_nav: tap                # none|tap|swipe
+  mark_read_on_view: false        # mark entries read as you scroll past them
+  mark_read_on_media_player_completion: false
+  default_reading_speed: 265      # words per minute, used for reading time
+  cjk_reading_speed: 500
+  always_open_external_links: false
+  open_external_links_in_new_tab: true
+  # Comma-separated hosts allowed by the CSP for custom stylesheet fonts.
+  external_font_hosts: ""
+  # Custom CSS/JS injected into every page. Leave empty for stock look.
+  stylesheet: ""
+  custom_js: ""
+  # Global entry filters (regex, one per line: "Title=...", "URL=...", "Author=...").
+  block_filter_entry_rules: ""
+  keep_filter_entry_rules: ""
+
+# Per-feed defaults, overridable per feed. Keys match the Miniflux feed API.
+feed_defaults:
+  crawler: false                  # fetch full article content instead of the feed excerpt
+  disabled: false
+  hide_globally: false            # exclude from the "unread" global view
+  ignore_http_cache: false
+  allow_self_signed_certificates: false
+  fetch_via_proxy: false
+  no_media_player: false
+  user_agent: ""
+  cookie: ""
+  scraper_rules: ""               # CSS selector for full-content extraction
+  rewrite_rules: ""
+  urlrewrite_rules: ""
+  disable_http2: false
+  ignore_entry_updates: false   # skip re-saving entries whose content changed upstream
+  webhook_url: ""
+  blocklist_rules: ""             # legacy title regex filters; prefer *_filter_entry_rules
+  keeplist_rules: ""
+  block_filter_entry_rules: ""
+  keep_filter_entry_rules: ""
+
+categories:
+  # "All" is Miniflux's built-in default category; it always exists and can't be deleted.
+  - title: All
+    feeds:
+      - url: https://lwn.net/headlines/rss
+        title: LWN.net
+      - url: https://www.phoronix.com/rss.php
+        title: Phoronix
+      - url: https://protesilaos.com/master.xml
+        title: "Protesilaos: Master feed with all updates"
+      - url: https://pycoders.com/feed
+        title: "PyCoder’s Weekly"
+      - url: https://simonwillison.net/atom/everything/
+        title: "Simon Willison's Weblog"
+
+  - title: code
+    feeds:
+      - url: https://news.ycombinator.com/rss
+        title: Hacker News
+      - url: https://planet.debian.org/atom.xml
+        title: Planet Debian
