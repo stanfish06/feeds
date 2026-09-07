@@ -84,3 +84,54 @@ categories:
         title: Hacker News
       - url: https://planet.debian.org/atom.xml
         title: Planet Debian
+      - url: https://lobste.rs/rss
+        title: Lobsters
+      - url: https://jvns.ca/atom.xml
+        title: Julia Evans
+      - url: https://newsletter.pragmaticengineer.com/feed
+        title: The Pragmatic Engineer
+
+  - title: ai
+    feeds:
+      - url: https://www.interconnects.ai/feed
+        title: Interconnects
+      - url: https://importai.substack.com/feed
+        title: Import AI
+      - url: https://magazine.sebastianraschka.com/feed
+        title: Ahead of AI
+
+  - title: finance
+    feeds:
+      - url: https://marginalrevolution.com/feed
+        title: Marginal Revolution
+      - url: https://www.calculatedriskblog.com/feeds/posts/default
+        title: Calculated Risk
+      - url: https://www.netinterest.co/feed
+        title: Net Interest
+
+  - title: research
+    feeds:
+      - url: https://www.nature.com/nature/news.rss
+        title: Nature News
+      - url: https://www.science.org/rss/news_current.xml
+        title: Science News
+      - url: https://www.nature.com/subjects/computational-biology-and-bioinformatics.rss
+        title: "Nature: Computational Biology & Bioinformatics"
+
+  - title: health
+    feeds:
+      - url: https://www.statnews.com/feed/
+        title: STAT News
+      - url: https://www.science.org/blogs/pipeline/feed
+        title: In the Pipeline
+      - url: https://kffhealthnews.org/feed/
+        title: KFF Health News
+
+  - title: politics
+    feeds:
+      - url: https://rss.politico.com/politics-news.xml
+        title: Politico
+      - url: https://www.readtangle.com/rss/
+        title: Tangle
+      - url: https://www.economist.com/united-states/rss.xml
+        title: "The Economist: United States"

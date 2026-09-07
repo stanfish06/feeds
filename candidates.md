@@ -1,0 +1,202 @@
+# Feed candidates
+
+- AI
+  - [x] Interconnects (Nathan Lambert) (added) — https://www.interconnects.ai/feed — open models, post-training, weekly
+  - [x] Import AI (Jack Clark) (added) — https://importai.substack.com/feed — weekly paper roundup and policy
+  - [x] Ahead of AI (Sebastian Raschka) (added) — https://magazine.sebastianraschka.com/feed — long architecture write-ups, monthly
+  - [ ] Latent Space — https://www.latent.space/feed — AI engineering, high volume
+  - [ ] One Useful Thing (Ethan Mollick) — https://www.oneusefulthing.org/feed — LLMs in work and education
+  - [ ] Lil'Log (Lilian Weng) — https://lilianweng.github.io/index.xml — a few deep surveys per year
+  - [ ] Andrej Karpathy — https://karpathy.bearblog.dev/feed/ — rare
+  - [ ] The Gradient — https://thegradient.pub/rss/ — essays
+  - [ ] Don't Worry About the Vase (Zvi) — https://thezvi.substack.com/feed — very long weekly roundups
+  - [ ] LessWrong curated — https://www.lesswrong.com/feed.xml?view=curated-rss
+  - [ ] Dwarkesh Podcast — https://www.dwarkesh.com/feed — interview transcripts
+  - [ ] SemiAnalysis — https://newsletter.semianalysis.com/feed — AI hardware and capex, overlaps finance
+  - [ ] Stratechery — https://stratechery.com/feed/ — tech strategy, free weekly article
+  - [ ] Answer.AI — https://www.answer.ai/index.xml
+  - [ ] Eugene Yan — https://eugeneyan.com/rss/ — applied ML, occasional
+  - [ ] Chip Huyen — https://huyenchip.com/feed.xml — last post Jan 2025
+  - Lab blogs
+    - [ ] OpenAI news — https://openai.com/news/rss.xml
+    - [ ] Google DeepMind — https://deepmind.google/blog/rss.xml
+    - [ ] Google Research — https://research.google/blog/rss/
+    - [ ] Hugging Face blog — https://huggingface.co/blog/feed.xml — noisy
+    - [ ] Anthropic via Google News (no official feed) — https://news.google.com/rss/search?q=site:anthropic.com/news&hl=en-US&gl=US&ceid=US:en
+  - arXiv (hundreds per day; give them a `hide_globally: true` category)
+    - [ ] cs.LG — https://rss.arxiv.org/rss/cs.LG
+    - [ ] cs.AI — https://rss.arxiv.org/rss/cs.AI
+    - [ ] cs.CL — https://rss.arxiv.org/rss/cs.CL
+    - [ ] stat.ML — https://rss.arxiv.org/rss/stat.ML
+  - No working feed: Epoch AI, Gwern, BAIR blog (timed out)
+
+- Programming
+  - [x] Lobsters (added) — https://lobste.rs/rss — HN with less noise
+  - [x] Julia Evans (added) — https://jvns.ca/atom.xml — debugging and systems explainers
+  - [x] The Pragmatic Engineer (added) — https://newsletter.pragmaticengineer.com/feed — industry and engineering culture
+  - Individual blogs
+    - [ ] Dan Luu — https://danluu.com/atom.xml — long-form, a few per year
+    - [ ] matklad — https://matklad.github.io/feed.xml — Rust, editors, design
+    - [ ] fasterthanlime — https://fasterthanli.me/index.xml
+    - [ ] antirez — https://antirez.com/rss — Redis author, C, LLM-assisted coding
+    - [ ] research!rsc (Russ Cox) — https://research.swtch.com/feed.atom — Go, build systems
+    - [ ] Drew DeVault — https://drewdevault.com/blog/index.xml
+    - [ ] Xe Iaso — https://xeiaso.net/blog.rss — Nix, infra
+    - [ ] Rachel by the Bay — https://rachelbythebay.com/w/atom.xml — ops war stories
+    - [ ] Computer Things (Hillel Wayne) — https://buttondown.com/hillelwayne/rss — formal methods, weekly
+    - [ ] Armin Ronacher — https://lucumr.pocoo.org/feed.atom — Python, Rust, agents
+    - [ ] Hynek Schlawack — https://hynek.me/index.xml — Python packaging
+    - [ ] Brendan Gregg — https://www.brendangregg.com/blog/rss.xml — performance, eBPF
+    - [ ] Mitchell Hashimoto — https://mitchellh.com/feed.xml — Ghostty, Zig
+    - [ ] Eli Bendersky — https://eli.thegreenplace.net/feeds/all.atom.xml
+    - [ ] null program (Chris Wellons) — https://nullprogram.com/feed/ — C, Windows internals
+    - [ ] Martin Fowler — https://martinfowler.com/feed.atom
+    - [ ] Seth Larson — https://sethmlarson.dev/feed — Python security
+  - Project and release feeds
+    - [ ] Rust blog — https://blog.rust-lang.org/feed.xml
+    - [ ] Go blog — https://go.dev/blog/feed.atom
+    - [ ] Python Insider — https://pythoninsider.blogspot.com/feeds/posts/default
+    - [ ] Astral blog — https://astral.sh/blog/rss.xml — uv, ruff, ty
+    - [ ] Zig news — https://ziglang.org/news/index.xml
+    - [ ] NixOS announcements — https://nixos.org/blog/announcements-rss.xml
+    - [ ] GitHub blog — https://github.blog/feed/
+    - [ ] GitHub changelog — https://github.blog/changelog/feed/ — daily, short
+    - [ ] Changelog — https://changelog.com/feed — podcast
+  - Security
+    - [ ] Krebs on Security — https://krebsonsecurity.com/feed/
+    - [ ] Schneier on Security — https://www.schneier.com/feed/atom/
+  - Tech news
+    - [ ] Ars Technica — https://feeds.arstechnica.com/arstechnica/index — high volume
+    - [ ] The Verge — https://www.theverge.com/rss/index.xml — high volume
+    - [ ] 404 Media — https://www.404media.co/rss/ — tech investigations
+    - [ ] IEEE Spectrum — https://spectrum.ieee.org/feeds/feed.rss
+    - [ ] Daring Fireball — https://daringfireball.net/feeds/main — Apple-centric
+  - No working feed: Pointer (410 gone)
+
+- Finance
+  - [x] Marginal Revolution (added) — https://marginalrevolution.com/feed — daily econ links
+  - [x] Calculated Risk (added) — https://www.calculatedriskblog.com/feeds/posts/default — macro data the day it drops
+  - [x] Net Interest (added) — https://www.netinterest.co/feed — banking and fintech, weekly
+  - News (headlines only, articles paywalled)
+    - [ ] Bloomberg Markets — https://feeds.bloomberg.com/markets/news.rss
+    - [ ] Bloomberg Economics — https://feeds.bloomberg.com/economics/news.rss
+    - [ ] FT Home — https://www.ft.com/rss/home
+    - [ ] FT Alphaville — https://www.ft.com/alphaville?format=rss
+    - [ ] Economist Finance & Economics — https://www.economist.com/finance-and-economics/rss.xml
+    - [ ] CNBC Finance — https://www.cnbc.com/id/10000664/device/rss/rss.html — high volume
+  - Primary sources and research
+    - [ ] NBER new working papers — https://back.nber.org/rss/new.xml — weekly batch
+    - [ ] Federal Reserve press — https://www.federalreserve.gov/feeds/press_all.xml
+    - [ ] Liberty Street Economics (NY Fed) — https://libertystreeteconomics.newyorkfed.org/feed/
+    - [ ] Bank Underground (BoE) — https://bankunderground.co.uk/feed/
+  - Commentary
+    - [ ] Musings on Markets (Damodaran) — https://aswathdamodaran.blogspot.com/feeds/posts/default — valuation, monthly
+    - [ ] Bits about Money (patio11) — https://www.bitsaboutmoney.com/archive/rss/ — payments plumbing
+    - [ ] Klement on Investing — https://klementoninvesting.substack.com/feed — daily short takes on research
+    - [ ] Noahpinion — https://www.noahpinion.blog/feed — econ and politics
+    - [ ] Apricitas Economics — https://www.apricitas.io/feed — charts
+    - [ ] A Wealth of Common Sense — https://awealthofcommonsense.com/feed/
+    - [ ] The Big Picture (Ritholtz) — https://ritholtz.com/feed/ — link roundups
+    - [ ] Abnormal Returns — https://abnormalreturns.com/feed/ — link roundups
+  - Dead or no feed: WSJ Markets and Economy (stopped Jan 2025), The Diff (stopped 2022), Money Stuff (email only; use kill-the-newsletter.com)
+
+- Academic research
+  - [x] Nature News (added) — https://www.nature.com/nature/news.rss
+  - [x] Science News (added) — https://www.science.org/rss/news_current.xml
+  - [x] Nature: Computational Biology & Bioinformatics (added) — https://www.nature.com/subjects/computational-biology-and-bioinformatics.rss — cross-journal subject feed
+  - Journal tables of contents
+    - [ ] Nature — https://www.nature.com/nature.rss
+    - [ ] Nature Methods — https://www.nature.com/nmeth.rss
+    - [ ] Nature Biotechnology — https://www.nature.com/nbt.rss
+    - [ ] Nature Genetics — https://www.nature.com/ng.rss
+    - [ ] Science current issue — https://www.science.org/action/showFeed?type=etoc&feed=rss&jc=science
+    - [ ] Cell — https://www.cell.com/cell/current.rss
+    - [ ] Cell Systems — https://www.cell.com/cell-systems/current.rss
+    - [ ] PLOS Computational Biology — https://journals.plos.org/ploscompbiol/feed/atom
+    - [ ] PNAS — https://www.pnas.org/action/showFeed?type=etoc&feed=rss&jc=pnas
+    - [ ] eLife recent — https://elifesciences.org/rss/recent.xml
+    - [ ] Bioinformatics (OUP) advance access — https://academic.oup.com/rss/site_5139/advanceAccess_3001.xml
+    - [ ] Nucleic Acids Research advance access — https://academic.oup.com/rss/site_5127/advanceAccess_3091.xml
+  - Preprints
+    - [ ] arXiv q-bio.GN — https://rss.arxiv.org/rss/q-bio.GN
+    - [ ] arXiv q-bio.QM — https://rss.arxiv.org/rss/q-bio.QM
+  - Blogs and magazines
+    - [ ] Quanta Magazine — https://www.quantamagazine.org/feed/
+    - [ ] Retraction Watch — https://retractionwatch.com/feed/
+    - [ ] Statistical Modeling (Gelman) — https://statmodeling.stat.columbia.edu/feed/ — daily
+    - [ ] Bits of DNA (Pachter) — https://liorpachter.wordpress.com/feed/ — infrequent
+    - [ ] Asimov Press — https://www.asimov.press/feed — bio essays
+    - [ ] Owl Posting — https://www.owlposting.com/feed — bio and ML
+    - [ ] The Transmitter — https://www.thetransmitter.org/feed/ — neuroscience
+    - [ ] Undark — https://undark.org/feed/ — science journalism
+    - [ ] The Conversation US — https://theconversation.com/us/articles.atom
+  - Funders and higher ed
+    - [ ] NIH news releases — https://www.nih.gov/news-releases/feed.xml
+    - [ ] NSF news — https://www.nsf.gov/rss/rss_www_news.xml
+    - [ ] Inside Higher Ed — https://www.insidehighered.com/rss.xml
+  - No working feed: bioRxiv subject feeds (connect.biorxiv.org 404), Genome Biology, Simply Statistics
+
+- Health
+  - [x] STAT News (added) — https://www.statnews.com/feed/ — health and biotech news
+  - [x] In the Pipeline (Derek Lowe) (added) — https://www.science.org/blogs/pipeline/feed — pharma chemistry
+  - [x] KFF Health News (added) — https://kffhealthnews.org/feed/ — US health policy
+  - Journals
+    - [ ] NEJM current — https://www.nejm.org/action/showFeed?jc=nejm&type=etoc&feed=rss
+    - [ ] The Lancet current — https://www.thelancet.com/rssfeed/lancet_current.xml
+    - [ ] JAMA current — https://jamanetwork.com/rss/site_3/67.xml
+    - [ ] BMJ recent — https://www.bmj.com/rss/recent.xml
+    - [ ] Nature Medicine — https://www.nature.com/nm.rss
+    - [ ] Nature Reviews Drug Discovery — https://www.nature.com/nrd.rss
+  - Industry
+    - [ ] Endpoints News — https://endpts.com/feed/ — biopharma business
+    - [ ] Fierce Biotech — https://www.fiercebiotech.com/rss/xml
+  - Policy and public health
+    - [ ] KFF — https://www.kff.org/feed/
+    - [ ] Health Affairs Forefront — https://www.healthaffairs.org/action/showFeed?type=etoc&feed=rss&jc=hlthaff
+    - [ ] WHO news — https://www.who.int/rss-feeds/news-english.xml
+    - [ ] MedPage Today — https://www.medpagetoday.com/rss/headlines.xml — high volume
+  - Commentary
+    - [ ] Science-Based Medicine — https://sciencebasedmedicine.org/feed/
+    - [ ] Your Local Epidemiologist — https://yourlocalepidemiologist.substack.com/feed
+    - [ ] Ground Truths (Eric Topol) — https://erictopol.substack.com/feed — AI in medicine
+    - [ ] Sensible Medicine — https://www.sensible-med.com/feed — contrarian evidence-based medicine
+    - [ ] Peter Attia — https://peterattiamd.com/feed/ — longevity
+  - No working feed: FDA press releases, CDC MMWR (last updated 2018), CIDRAP (stale), Examine.com (rate-limited)
+
+- Politics
+  - [x] Politico (added) — https://rss.politico.com/politics-news.xml
+  - [x] Tangle (added) — https://www.readtangle.com/rss/ — one issue a day, both sides summarized
+  - [x] The Economist: United States (added) — https://www.economist.com/united-states/rss.xml
+  - News
+    - [ ] Axios — https://api.axios.com/feed/
+    - [ ] Semafor — https://www.semafor.com/rss.xml
+    - [ ] NPR Politics — https://feeds.npr.org/1014/rss.xml
+    - [ ] NPR News — https://feeds.npr.org/1001/rss.xml
+    - [ ] NYT Politics — https://rss.nytimes.com/services/xml/rss/nyt/Politics.xml
+    - [ ] NYT Home — https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml — high volume
+    - [ ] Washington Post Politics — https://feeds.washingtonpost.com/rss/politics
+    - [ ] Guardian US politics — https://www.theguardian.com/us-news/us-politics/rss
+    - [ ] Guardian World — https://www.theguardian.com/world/rss — high volume
+    - [ ] BBC World — https://feeds.bbci.co.uk/news/world/rss.xml — high volume
+    - [ ] Al Jazeera — https://www.aljazeera.com/xml/rss/all.xml — high volume
+    - [ ] Vox — https://www.vox.com/rss/index.xml
+    - [ ] ProPublica — https://www.propublica.org/feeds/propublica/main — investigations
+    - [ ] Reuters politics via Google News (no official feed) — https://news.google.com/rss/search?q=site:reuters.com+politics&hl=en-US&gl=US&ceid=US:en
+  - World and foreign policy
+    - [ ] Economist International — https://www.economist.com/international/rss.xml
+    - [ ] Economist China — https://www.economist.com/china/rss.xml
+    - [ ] Foreign Affairs — https://www.foreignaffairs.com/rss.xml
+    - [ ] War on the Rocks — https://warontherocks.com/feed/
+    - [ ] ChinaTalk — https://www.chinatalk.media/feed — China and AI policy
+    - [ ] Sinocism — https://sinocism.com/feed — China, paywalled after intro
+  - Courts
+    - [ ] SCOTUSblog — https://www.scotusblog.com/feed/
+  - Commentary, roughly left to right
+    - [ ] Slow Boring (Yglesias) — https://www.slowboring.com/feed
+    - [ ] Popular Information — https://popular.info/feed
+    - [ ] Silver Bulletin (Nate Silver) — https://www.natesilver.net/feed
+    - [ ] The Bulwark — https://www.thebulwark.com/feed
+    - [ ] The Dispatch — https://thedispatch.com/feed/
+    - [ ] Reason — https://reason.com/feed/
+    - [ ] National Review — https://www.nationalreview.com/feed/
+  - Blocked for non-browser fetchers (Miniflux likely fails too): Lawfare, Brookings, AP News
