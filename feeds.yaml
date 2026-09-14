@@ -77,6 +77,8 @@ categories:
         title: "Simon Willison's Weblog"
       - url: https://world.hey.com/dhh/feed.atom
         title: "DHH's blog"
+      - url: https://lucumr.pocoo.org/feed
+        title: "Armin Ronacher's blog"
 
   - title: code
     feeds:
