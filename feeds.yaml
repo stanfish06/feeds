@@ -79,6 +79,8 @@ categories:
         title: "DHH's blog"
       - url: https://lucumr.pocoo.org/feed
         title: "Armin Ronacher's blog"
+      - url: https://lethain.com/feeds.xml
+        title: "Will Larson's blog"
 
   - title: code
     feeds:
