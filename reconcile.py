@@ -5,8 +5,9 @@
 # ///
 """Reconcile a Miniflux instance with feeds.yaml.
 
-Identity: categories by title, feeds by url. Feeds and categories absent from
-the file are deleted unless --no-prune. Use --dry-run to print the plan only.
+Identity: categories by title, feeds by url. Miniflux stores the post-redirect
+url on create, so url matching also follows redirects and ignores the query
+string. Feeds and categories absent from the file are deleted unless --no-prune. Use --dry-run to print the plan only.
 """
 
 from __future__ import annotations
@@ -158,6 +159,49 @@ def norm_url(u: str) -> str:
     return u.strip().rstrip("/")
 
 
+def base_url(u: str) -> str:
+    """Drop query/fragment: some hosts append per-request params on redirect."""
+    return norm_url(u.split("#", 1)[0].split("?", 1)[0])
+
+
+def resolve_url(u: str) -> str:
+    """Follow redirects the way Miniflux does when it stores a new feed's url."""
+    try:
+        with (
+            httpx.Client(
+                follow_redirects=True,
+                timeout=20,
+                headers={"User-Agent": "Mozilla/5.0 (compatible; miniflux-reconcile)"},
+            ) as h,
+            h.stream("GET", u) as r,
+        ):
+            return str(r.url)
+    except httpx.HTTPError:
+        return u  # unreachable feed: fall back to the literal url
+
+
+def match_remote(url: str, remote: dict[str, dict], claimed: set[int]) -> list[dict]:
+    """Unclaimed remote feeds equal to url modulo redirects and query string.
+
+    Miniflux stores the post-redirect url on create, so the literal url in the
+    file often never appears remotely. All matches are returned so extras can be
+    pruned as duplicates.
+    """
+    bases = {base_url(url)}
+
+    def hits() -> list[dict]:
+        return [
+            f
+            for f in remote.values()
+            if f["id"] not in claimed and base_url(f["feed_url"]) in bases
+        ]
+
+    if found := hits():
+        return found
+    bases.add(base_url(resolve_url(url)))  # one http round-trip, only if needed
+    return hits()
+
+
 def plan(cfg: Config, c: Client, prune: bool) -> list[Action]:
     actions: list[Action] = []
     # ids resolved lazily so created categories can be referenced by later steps
@@ -199,61 +243,70 @@ def plan(cfg: Config, c: Client, prune: bool) -> list[Action]:
 
     # --- feeds ---
     remote_feeds = {norm_url(f["feed_url"]): f for f in c.req("GET", "/feeds")}
-    desired_urls: set[str] = set()
-    for cat in cfg.categories:
-        for feed in cat.feeds:
-            key = norm_url(feed.url)
-            desired_urls.add(key)
-            opts = cfg.feed_defaults.set_fields() | feed.set_fields()
-            opts.pop("url", None)
-            opts.pop("title", None)
-            rf = remote_feeds.get(key)
-            if rf is None:
+    desired = [(cat, feed) for cat in cfg.categories for feed in cat.feeds]
+    # exact url matches claim first so a redirect match can't steal them
+    matches: dict[int, list[dict]] = {}
+    claimed: set[int] = set()
+    for i, (_, feed) in enumerate(desired):
+        if rf := remote_feeds.get(norm_url(feed.url)):
+            matches[i] = [rf]
+            claimed.add(rf["id"])
+    for i, (_, feed) in enumerate(desired):
+        if i not in matches:
+            matches[i] = match_remote(feed.url, remote_feeds, claimed)
+            claimed.update(f["id"] for f in matches[i])
+    keep_ids = {m[0]["id"] for m in matches.values() if m}
 
-                def create_feed(feed=feed, cat=cat, opts=opts) -> None:
-                    r = c.req(
-                        "POST",
-                        "/feeds",
-                        json={"feed_url": feed.url, "category_id": cat_ids[cat.title]}
-                        | opts,
-                    )
-                    if feed.title:
-                        c.req(
-                            "PUT", f"/feeds/{r['feed_id']}", json={"title": feed.title}
-                        )
+    for i, (cat, feed) in enumerate(desired):
+        opts = cfg.feed_defaults.set_fields() | feed.set_fields()
+        opts.pop("url", None)
+        opts.pop("title", None)
+        rf = matches[i][0] if matches[i] else None
+        if rf is None:
 
-                actions.append(
-                    Action(f"feed create      [{cat.title}] {feed.url}", create_feed)
+            def create_feed(feed=feed, cat=cat, opts=opts) -> None:
+                r = c.req(
+                    "POST",
+                    "/feeds",
+                    json={"feed_url": feed.url, "category_id": cat_ids[cat.title]}
+                    | opts,
                 )
-                continue
-            # diff managed fields against remote
-            diff: dict[str, Any] = {}
-            if rf["category"]["title"] != cat.title:
-                diff["category_id"] = cat.title  # resolved at apply time
-            if feed.title and rf["title"] != feed.title:
-                diff["title"] = feed.title
-            for k, v in opts.items():
-                if rf.get(k) != v:
-                    diff[k] = v
-            if diff:
-                shown = ", ".join(f"{k}={v!r}" for k, v in diff.items())
+                if feed.title:
+                    c.req("PUT", f"/feeds/{r['feed_id']}", json={"title": feed.title})
 
-                def update_feed(rf=rf, diff=diff) -> None:
-                    body = dict(diff)
-                    if "category_id" in body:
-                        body["category_id"] = cat_ids[body["category_id"]]
-                    c.req("PUT", f"/feeds/{rf['id']}", json=body)
+            actions.append(
+                Action(f"feed create      [{cat.title}] {feed.url}", create_feed)
+            )
+            continue
+        # diff managed fields against remote
+        diff: dict[str, Any] = {}
+        if rf["category"]["title"] != cat.title:
+            diff["category_id"] = cat.title  # resolved at apply time
+        if feed.title and rf["title"] != feed.title:
+            diff["title"] = feed.title
+        for k, v in opts.items():
+            if rf.get(k) != v:
+                diff[k] = v
+        if diff:
+            shown = ", ".join(f"{k}={v!r}" for k, v in diff.items())
 
-                actions.append(
-                    Action(f"feed update      {rf['feed_url']}: {shown}", update_feed)
-                )
+            def update_feed(rf=rf, diff=diff) -> None:
+                body = dict(diff)
+                if "category_id" in body:
+                    body["category_id"] = cat_ids[body["category_id"]]
+                c.req("PUT", f"/feeds/{rf['id']}", json=body)
+
+            actions.append(
+                Action(f"feed update      {rf['feed_url']}: {shown}", update_feed)
+            )
 
     if prune:
-        for key, rf in remote_feeds.items():
-            if key not in desired_urls:
+        for rf in remote_feeds.values():
+            if rf["id"] not in keep_ids:
+                why = "duplicate" if rf["id"] in claimed else "unlisted"
                 actions.append(
                     Action(
-                        f"feed DELETE      [{rf['category']['title']}] {rf['feed_url']}",
+                        f"feed DELETE      [{rf['category']['title']}] {rf['feed_url']} ({why})",
                         lambda rf=rf: c.req("DELETE", f"/feeds/{rf['id']}"),
                     )
                 )

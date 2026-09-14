@@ -99,6 +99,8 @@ categories:
         title: Import AI
       - url: https://magazine.sebastianraschka.com/feed
         title: Ahead of AI
+      - url: https://www.latent.space/feed
+        title: Latent Space
 
   - title: finance
     feeds:
