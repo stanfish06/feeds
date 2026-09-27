@@ -81,6 +81,8 @@ categories:
         title: "Armin Ronacher's blog"
       - url: https://lethain.com/feeds.xml
         title: "Will Larson's blog"
+      - url: https://dthompson.us/feed.xml
+        title: "David Thompson's blog"
 
   - title: code
     feeds:
