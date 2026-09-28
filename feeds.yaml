@@ -96,6 +96,8 @@ categories:
         title: Julia Evans
       - url: https://newsletter.pragmaticengineer.com/feed
         title: The Pragmatic Engineer
+      - url: https://asawicki.info/news_rss.php
+        title: Adam Sawicki
 
   - title: ai
     feeds:
